@@ -12,16 +12,18 @@ This project will find popular Reddit threads and convert them into a text-to-sp
 
 
 
-Relevant API's and Software:
+## Relevant API's and Software:
 
-Video Editing API:
-https://shotstack.io/ (i got a developer account)
+### Video Editing API:
+* https://shotstack.io/ (i got a developer account)
 
-Reddit API: 
-https://www.reddit.com/wiki/api
+### Reddit API: 
+* https://www.reddit.com/wiki/api
+* wrapper for reddit API: praw: https://praw.readthedocs.io/en/latest/
+* Example of a project using praw: https://github.com/alexshelto/redditSourcedInstagramBot/blob/master/app.py
 
-Text to Speech API:
-https://cloud.google.com/text-to-speech
+### Text to Speech API:
+* https://cloud.google.com/text-to-speech
 
-Web Automation Software (for getting screenshots and probably snagging text for text-to-speech):
-https://www.selenium.dev/documentation/en/
+### Web Automation Software (for getting screenshots and probably snagging text for text-to-speech):
+* https://www.selenium.dev/documentation/en/
