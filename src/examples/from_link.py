@@ -1,3 +1,9 @@
+# Program takes a reddit post link
+# Then returns the top 5 comments from the post
+#
+
+
+
 import praw
 import sys
 import argparse # command line argument parser
@@ -29,7 +35,20 @@ def main() -> int:
 
     # Creating an instance of a reddit thread? 
     submission = reddit.submission(url=args.link)
-    print(f'Submission title: \n{submission.title}')
+
+
+    # sorting comments by hot
+    submission.comment_sort = "top"
+    submission.comments.replace_more(limit=0)    
+    comments = submission.comments.list()
+
+
+    print(f'\nSubmission title: {submission.title}\n')
+
+    # Printing out the top 5 comments
+    for i in range(0,5): 
+        comment = reddit.comment(comments[i])
+        print(f'top comment: {i+1}: {comment.body}\n')
 
     return 0
 
