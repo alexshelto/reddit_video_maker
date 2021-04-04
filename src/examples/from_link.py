@@ -12,11 +12,7 @@ sys.path.append("../")
 import config
 
 
-reddit = praw.Reddit(
-    client_id=config.PRAW_CONFIG['client_id'],
-    client_secret=config.PRAW_CONFIG['client_secret'],
-    user_agent=config.PRAW_CONFIG['user_agent'],
-)
+
 
 def main() -> int: 
 
