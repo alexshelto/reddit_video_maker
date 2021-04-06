@@ -6,11 +6,27 @@
 #including the reddit api wrapper
 import praw
 
+#including the text to speech API: subject to change
+from gtts import gTTS
+
+# Pre process can let us exchange words. ie: exchanging curse words for others
+from gtts.tokenizer import pre_processors
+import gtts.tokenizer.symbols
+
 
 #importing the config file
 import sys
 sys.path.append("../")
 import config
+
+import os
+
+
+# Words that we will exchange for others in text scraping
+# To ensure no terrible words are used in the video
+gtts.tokenizer.symbols.SUB_PAIRS.append(
+        ('fuck', 'F')
+)
 
 
 class RedditScrape:
@@ -19,9 +35,13 @@ class RedditScrape:
     def __init__(self, url, num_replies):
         self.url = url
         self.num_replies = num_replies
+        self.path = '../audio/' # Creating a directory to hold the audio in
          
     
     def scrape_post(self):
+        # Creating a list, will fill with title and comment text
+        text_used = []
+
         # Creating an instance of reddit api
         reddit = praw.Reddit(
             client_id=config.PRAW_CONFIG['client_id'],
@@ -38,13 +58,40 @@ class RedditScrape:
         # Creating a list of the top n replies, n=num_replies. an argument to the class
         comments = submission.comments.list()[0:self.num_replies]
 
-        
-        # Outputting title and top n comments
-        print(f'\n{submission.title}\n')
 
-        for i in range(0,len(comments)):
-            comment = reddit.comment(comments[i])
-            print(f'top comment: {i+1}: {comment.body}\n')
+        # Creating a folder to hold audio files in if it doesnt already exist
+        try: 
+            os.makedirs(self.path)
+            print(f'directory: {self.path} created')
+        except FileExistsError:
+            print(f'directory: {self.path} already exists')
+        
+
+        # Looping through the comments, creating text to speech audio
+        # Then putting the text to speech audio into an mp3 file
+        with open(self.path + 'reddit.mp3', 'wb') as f:
+            # Creating an audio of title and writing to file
+            print(f'\n{submission.title}\n')
+
+            clean_title = pre_processors.word_sub(submission.title)
+            gTTS(text=clean_title,lang='en').write_to_fp(f)
+            text_used.append(clean_title)
+
+            # Creating audio of the comments and adding to file
+            for i in range(0,len(comments)):
+                data = reddit.comment(comments[i])
+                print(f'top comment: {i+1}: {data.body}\n')
+                # Running pre process on words swapping naughty words for better ones
+                clean_str = pre_processors.word_sub(data.body)
+                text_used.append(clean_str)
+                # Writing text to speech of string to the mp3 file
+                gTTS(text=clean_str, lang='en').write_to_fp(f)
+
+
+
+
+
+
 
 
 
