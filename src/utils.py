@@ -28,7 +28,7 @@ class utils:
         # Creating font and text size
         font = ImageFont.truetype(font_file, 50)
         
-        # Creating author font
+        # Creating author font: slightly larger than text size
         author_font = ImageFont.truetype(font_file, 55)
         # Writing author name to file
         draw.text((20,50),author, font=author_font, fill=(225,0,0))
@@ -36,12 +36,10 @@ class utils:
         # Need to loop through the words, and put them on the file line by line
         # If i write all text at once itl overflow off the picture in 1 line
         # Splitting each line of text into 10 words
-
         image_height = 1080
         image_width = 1920
-
-
         y = 150 # starting y index
+
         for line in utils.split_string(text, 10):
             text_dimensions = utils.get_text_dimensions(line, font)
             x = (image_width - text_dimensions[0]) / 2
@@ -52,19 +50,24 @@ class utils:
         # Saving the picture
         img.save(complete_file)
 
+
     def get_text_dimensions(text_string, font):
+        '''takes a string of text that I am going to put onto an image
+        tells me how many pixels tall & wide the text will be and returns.
+        this helps decide where to place the text on the screen'''
         # https://stackoverflow.com/a/46220683/9263761
         ascent, descent = font.getmetrics()
-
         text_width = font.getmask(text_string).getbbox()[2]
         text_height = font.getmask(text_string).getbbox()[3] + descent
-
         return (text_width, text_height)
 
 
     def split_string(text, n):
         '''splits a string into indexes of a list
-        each index holds n words'''
+        each index holds n words
+
+        ex: split_string('hello world hello world', 2)
+        => ['hello world', 'hello world']'''
         words = text.split() #splits words into list: eg: 'hello world' -> ['hello', 'world']
         lines = []
         line = ''

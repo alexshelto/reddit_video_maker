@@ -13,7 +13,6 @@ from gtts import gTTS
 from gtts.tokenizer import pre_processors
 import gtts.tokenizer.symbols
 
-
 #importing the config file
 import sys
 sys.path.append("../")
