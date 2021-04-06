@@ -24,9 +24,6 @@ def main() -> int:
     # Adding required argument, number of entries (comments) to read
     parser.add_argument('n_entries', help='specify the number of replies to the post you want')
 
-    #adding an optional argument: -p, pause time in between posts (sec). default is 2
-    #parser.add_argument('-p', '--pause', help='config file')
-
     # Parse the command line arguments
     args = parser.parse_args()
 
@@ -46,10 +43,13 @@ def main() -> int:
 
     # Scrapes reddit post of title and replies, makes text to speech audio, and returns strings used
     title, replies = reddit_scraper.scrape_post()
-
-
+    
+    # Creating an image for the title
     utils.create_image_for(title, 'title')
-
+    # Creating image post for the replies
+    for i in range(0, len(replies)):
+        img_name = 'reply'+str(i)
+        utils.create_image_for(replies[i], img_name)
 
     return 0
 
