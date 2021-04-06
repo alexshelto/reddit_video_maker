@@ -32,7 +32,7 @@ gtts.tokenizer.symbols.SUB_PAIRS.append(
 class RedditScrape:
 
     #Constructor
-    def __init__(self, url, num_replies, pause_time=2):
+    def __init__(self, url, num_replies, pause_time):
         """url: the link of the reddit post to scrape comments/title from
         num_replies: the number of top replies program will take to make video
         pause_time: time in between each replies audio
