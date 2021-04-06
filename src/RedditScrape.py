@@ -52,6 +52,8 @@ class RedditScrape:
 
         # Creating a list, will fill with title and comment text
         text_used = []
+        # Creating a list of authors, used for post images
+        authors = []
 
         # Creating an instance of reddit api
         reddit = praw.Reddit(
@@ -68,6 +70,12 @@ class RedditScrape:
 
         # Creating a list of the top n replies, n=num_replies. an argument to the class
         comments = submission.comments.list()[0:self.num_replies]
+
+        # adding post author and replies authors
+        authors.append(submission.author.name)
+        for comment in comments:
+            authors.append(comment.author.name)
+
 
 
         # Creating a folder to hold audio files in if it doesnt already exist
@@ -113,7 +121,7 @@ class RedditScrape:
                 self.add_pause(silence_5_sec, f)
 
         # Returns string: Title, list: replies
-        return text_used[0], text_used[1:]
+        return text_used[0], text_used[1:], authors
 
 
     def add_pause(self, five_sec_silence, output_file):

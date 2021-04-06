@@ -11,7 +11,10 @@ IMAGE_PATH='../images/'
 FONT_PATH ='../fonts/'
 
 class utils:
-    def create_image_for(text, name):
+    def create_image_for(text,author, name):
+        '''takes a string of text, an author, and a name that the file should be
+        writes the text to the background of a default image in ../images/
+        saves the image as a new image to name.jpeg'''
         # Creating the file path to save the image. 
         text = text.decode("utf-8")
         complete_file = os.path.join(IMAGE_PATH, name+'.jpeg')
@@ -24,8 +27,11 @@ class utils:
         draw = ImageDraw.Draw(img)
         # Creating font and text size
         font = ImageFont.truetype(font_file, 50)
-        # Writing post tile || comment to pic
-        #draw.text((0, 0),text,font=font,fill=(255,255,255))
+        
+        # Creating author font
+        author_font = ImageFont.truetype(font_file, 55)
+        # Writing author name to file
+        draw.text((20,50),author, font=author_font, fill=(225,0,0))
         
         # Need to loop through the words, and put them on the file line by line
         # If i write all text at once itl overflow off the picture in 1 line
@@ -35,7 +41,7 @@ class utils:
         image_width = 1920
 
 
-        y = 50 # starting y index
+        y = 150 # starting y index
         for line in utils.split_string(text, 10):
             text_dimensions = utils.get_text_dimensions(line, font)
             x = (image_width - text_dimensions[0]) / 2
