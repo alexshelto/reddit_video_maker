@@ -8,6 +8,8 @@ import argparse
 # Importing reddit scraping class 
 from RedditScrape import RedditScrape
 
+from utils import utils
+
 
 
 
@@ -21,16 +23,14 @@ def main() -> int:
     parser.add_argument('url', help='link of reddit post is required')
     # Adding required argument, number of entries (comments) to read
     parser.add_argument('n_entries', help='specify the number of replies to the post you want')
+
     #adding an optional argument: -p, pause time in between posts (sec). default is 2
-    parser.add_argument('-p', '--pause', help='config file')
+    #parser.add_argument('-p', '--pause', help='config file')
+
     # Parse the command line arguments
     args = parser.parse_args()
 
 
-    # If pause time is not entered, (optional) default is 2
-    pause_time = 2
-    if (args.pause is not None): 
-        pause_time = args.pause
         
 
     '''
@@ -42,10 +42,13 @@ def main() -> int:
     print("you want to make a video with the link: ", args.url)
 
     # Creating the reddit scraper class
-    reddit_scraper = RedditScrape(args.url, int(args.n_entries), int(pause_time))
+    reddit_scraper = RedditScrape(args.url, int(args.n_entries))
 
-    # Calling a function on the reddit scraper 
-    reddit_scraper.scrape_post()
+    # Scrapes reddit post of title and replies, makes text to speech audio, and returns strings used
+    title, replies = reddit_scraper.scrape_post()
+
+
+    #utils.create_image_for(post_title, 'title')
 
 
     return 0

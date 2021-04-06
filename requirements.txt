@@ -10,3 +10,4 @@ six==1.15.0
 update-checker==0.18.0
 urllib3==1.26.4
 websocket-client==0.58.0
+Pillow==8.2.0

@@ -32,7 +32,7 @@ gtts.tokenizer.symbols.SUB_PAIRS.append(
 class RedditScrape:
 
     #Constructor
-    def __init__(self, url, num_replies, pause_time):
+    def __init__(self, url, num_replies):
         """url: the link of the reddit post to scrape comments/title from
         num_replies: the number of top replies program will take to make video
         pause_time: time in between each replies audio
@@ -40,7 +40,7 @@ class RedditScrape:
         """
         self.url = url
         self.num_replies = num_replies
-        self.pause_time = pause_time
+        #self.pause_time = pause_time
         self.path = '../audio/' # Creating a directory to hold the audio in
          
     
@@ -79,8 +79,9 @@ class RedditScrape:
         
 
         # Getting blank audio file to add breaks in between text to speech audio
-        f = open(self.path+'2-seconds-of-silence.mp3', 'rb')
-        silence_2_sec = f.read()
+        f = open(self.path+'5-seconds-of-silence.mp3', 'rb')
+        silence_5_sec = f.read()
+        f.close()
 
 
         # Looping through the comments, creating text to speech audio
@@ -92,7 +93,7 @@ class RedditScrape:
             gTTS(text=clean_title,lang='en').write_to_fp(f)
             text_used.append(clean_title)
             # adding a pause
-            self.add_pause(silence_2_sec, f)
+            f.write(silence_5_sec)
 
 
             # Creating audio of the comments and adding to file
@@ -105,14 +106,15 @@ class RedditScrape:
                 # Writing text to speech of string to the mp3 file
                 gTTS(text=clean_str, lang='en').write_to_fp(f)
                 # Adding a pause in audio
-                self.add_pause(silence_2_sec, f)
+                self.add_pause(silence_5_sec, f)
+
+        # Returns string: Title, list: replies
+        return text_used[0], text_used[1:]
 
 
-
-    def add_pause(self, two_sec_silence, output_file):
-        '''function adds 2 seconds of silence to output file n times,
-        specified by user in command line arg or default 2 sec between each text to speech'''
-        for i in range(0, self.pause_time//2):
-            output_file.write(two_sec_silence)
+    def add_pause(self, five_sec_silence, output_file):
+        '''function adds 5 seconds of silence to output file n times,
+        specified by user in command line arg or default 5 sec between each text to speech'''
+        output_file.write(five_sec_silence)
         return
 
