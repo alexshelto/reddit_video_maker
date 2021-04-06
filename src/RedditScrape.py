@@ -32,13 +32,24 @@ gtts.tokenizer.symbols.SUB_PAIRS.append(
 class RedditScrape:
 
     #Constructor
-    def __init__(self, url, num_replies):
+    def __init__(self, url, num_replies, pause_time=2):
+        """url: the link of the reddit post to scrape comments/title from
+        num_replies: the number of top replies program will take to make video
+        pause_time: time in between each replies audio
+        path: path to folder: [audio] which stores audio files created or used
+        """
         self.url = url
         self.num_replies = num_replies
+        self.pause_time = pause_time
         self.path = '../audio/' # Creating a directory to hold the audio in
          
     
     def scrape_post(self):
+        """ Takes the link passed into the class constructor
+        to scrape the reddit post for the title and the top comments
+        then the function loops through the strings of text turning them into 
+        a text to speech mp3 files and writes them to an mp3"""
+
         # Creating a list, will fill with title and comment text
         text_used = []
 
@@ -67,15 +78,22 @@ class RedditScrape:
             print(f'directory: {self.path} already exists')
         
 
+        # Getting blank audio file to add breaks in between text to speech audio
+        f = open(self.path+'2-seconds-of-silence.mp3', 'rb')
+        silence_2_sec = f.read()
+
+
         # Looping through the comments, creating text to speech audio
         # Then putting the text to speech audio into an mp3 file
         with open(self.path + 'reddit.mp3', 'wb') as f:
             # Creating an audio of title and writing to file
             print(f'\n{submission.title}\n')
-
             clean_title = pre_processors.word_sub(submission.title)
             gTTS(text=clean_title,lang='en').write_to_fp(f)
             text_used.append(clean_title)
+            # adding a pause
+            self.add_pause(silence_2_sec, f)
+
 
             # Creating audio of the comments and adding to file
             for i in range(0,len(comments)):
@@ -86,15 +104,15 @@ class RedditScrape:
                 text_used.append(clean_str)
                 # Writing text to speech of string to the mp3 file
                 gTTS(text=clean_str, lang='en').write_to_fp(f)
+                # Adding a pause in audio
+                self.add_pause(silence_2_sec, f)
 
 
 
+    def add_pause(self, two_sec_silence, output_file):
+        '''function adds 2 seconds of silence to output file n times,
+        specified by user in command line arg or default 2 sec between each text to speech'''
+        for i in range(0, self.pause_time//2):
+            output_file.write(two_sec_silence)
+        return
 
-
-
-
-
-
-    
-    def hi(self):
-         print("hello ")
