@@ -91,7 +91,10 @@ class RedditScrape:
             print(f'\n{submission.title}\n')
             clean_title = pre_processors.word_sub(submission.title)
             gTTS(text=clean_title,lang='en').write_to_fp(f)
-            text_used.append(clean_title)
+            # Pushing encoded string to list of text used
+            #text_used.append(clean_title.encode('latin-1', 'replace'))
+
+            text_used.append(clean_title.encode('utf-8', 'replace'))
             # adding a pause
             f.write(silence_5_sec)
 
@@ -102,7 +105,8 @@ class RedditScrape:
                 print(f'top comment: {i+1}: {data.body}\n')
                 # Running pre process on words swapping naughty words for better ones
                 clean_str = pre_processors.word_sub(data.body)
-                text_used.append(clean_str)
+                # Push text into list
+                text_used.append(clean_str.encode('utf-8', 'replace'))
                 # Writing text to speech of string to the mp3 file
                 gTTS(text=clean_str, lang='en').write_to_fp(f)
                 # Adding a pause in audio

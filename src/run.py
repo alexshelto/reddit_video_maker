@@ -48,7 +48,7 @@ def main() -> int:
     title, replies = reddit_scraper.scrape_post()
 
 
-    #utils.create_image_for(post_title, 'title')
+    utils.create_image_for(title, 'title')
 
 
     return 0
