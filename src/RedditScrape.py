@@ -2,7 +2,6 @@
 # This file will be called from the main file (run.py)
 # This file will scrape comments/title, turn to text to speech files
 
-
 #including the reddit api wrapper
 import praw
 
@@ -85,11 +84,6 @@ class RedditScrape:
             print(f'directory: {self.path} already exists')
         
 
-        # Getting blank audio file to add breaks in between text to speech audio
-        f = open(self.path+'5-seconds-of-silence.mp3', 'rb')
-        silence_5_sec = f.read()
-        f.close()
-
 
         # Looping through the comments, creating text to speech audio
         # Then putting the text to speech audio into an mp3 file
@@ -102,8 +96,6 @@ class RedditScrape:
             #text_used.append(clean_title.encode('latin-1', 'replace'))
 
             text_used.append(clean_title.encode('utf-8', 'replace'))
-            # adding a pause
-            f.write(silence_5_sec)
 
 
             # Creating audio of the comments and adding to file
@@ -116,16 +108,8 @@ class RedditScrape:
                 text_used.append(clean_str.encode('utf-8', 'replace'))
                 # Writing text to speech of string to the mp3 file
                 gTTS(text=clean_str, lang='en').write_to_fp(f)
-                # Adding a pause in audio
-                self.add_pause(silence_5_sec, f)
 
         # Returns string: Title, list: replies
         return text_used[0], text_used[1:], authors
 
-
-    def add_pause(self, five_sec_silence, output_file):
-        '''function adds 5 seconds of silence to output file n times,
-        specified by user in command line arg or default 5 sec between each text to speech'''
-        output_file.write(five_sec_silence)
-        return
 
