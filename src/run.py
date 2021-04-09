@@ -50,8 +50,9 @@ def main() -> int:
 
     # Creating a Video Editing object
     # Passing n_entries + 1, for # of images, since we have title + n replies
-    Editor = VideoEditor(int(args.n_entries) + 1)
+    Editor = VideoEditor(int(args.n_entries))
     Editor.create_movie()
+    print('movie created')
 
     return 0
 
