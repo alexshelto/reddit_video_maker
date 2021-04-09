@@ -5,9 +5,10 @@
 import argparse
 # Importing reddit scraping class 
 from RedditScrape import RedditScrape
-
+# Importing the video editing class
+from VideoEdit import VideoEditor
+# Importing some utility functions from utils.py
 from utils import utils
-
 
 
 def main() -> int: 
@@ -45,6 +46,12 @@ def main() -> int:
     for i in range(0, len(replies)):
         img_name = 'reply'+str(i)
         utils.create_image_for(replies[i],reply_authors[i], img_name)
+
+
+    # Creating a Video Editing object
+    # Passing n_entries + 1, for # of images, since we have title + n replies
+    Editor = VideoEditor(int(args.n_entries) + 1)
+    Editor.create_movie()
 
     return 0
 

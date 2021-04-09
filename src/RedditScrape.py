@@ -85,30 +85,28 @@ class RedditScrape:
         except FileExistsError:
             print(f'directory: {self.path} already exists')
         
-
-
-        # Looping through the comments, creating text to speech audio
-        # Then putting the text to speech audio into an mp3 file
-        with open(self.path + 'reddit.mp3', 'wb') as f:
+        # Creating a unique mp3 file for each text to speech 
+        # Title first
+        with open(self.path + 'title.mp3', 'wb') as f:
             # Creating an audio of title and writing to file
             print(f'\n{submission.title}\n')
             clean_title = pre_processors.word_sub(submission.title)
             gTTS(text=clean_title,lang='en').write_to_fp(f)
             # Pushing encoded string to list of text used
-            #text_used.append(clean_title.encode('latin-1', 'replace'))
-
             text_used.append(clean_title.encode('utf-8', 'replace'))
 
-
-            # Creating audio of the comments and adding to file
-            for i in range(0,len(comments)):
-                data = reddit.comment(comments[i])
-                print(f'top comment: {i+1}: {data.body}\n')
-                # Running pre process on words swapping naughty words for better ones
-                clean_str = pre_processors.word_sub(data.body)
-                # Push text into list
-                text_used.append(clean_str.encode('utf-8', 'replace'))
-                # Writing text to speech of string to the mp3 file
+        # Loop through each reply, turn to text to speech audio
+        # Then write to its on file 
+        # First reply -> reply0.mp3, 2nd reply -> reply1.mp3 ....
+        for i in range(0, len(comments)):
+            data = reddit.comment(comments[i])
+            print(f'top comment: {i+1}: {data.body}\n')
+            # Running pre process on words swapping naughty words for better ones
+            clean_str = pre_processors.word_sub(data.body)
+            # Push text into list
+            text_used.append(clean_str.encode('utf-8', 'replace'))
+            # Writing each text to speech to unique file 
+            with open(self.path + 'reply' + str(i) + '.mp3', 'wb') as f:
                 gTTS(text=clean_str, lang='en').write_to_fp(f)
 
         # Returns string: Title, list: replies
