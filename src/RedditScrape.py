@@ -2,6 +2,7 @@
 # This file will be called from the main file (run.py)
 # This file will scrape comments/title, turn to text to speech files
 
+
 #including the reddit api wrapper
 import praw
 
@@ -15,6 +16,8 @@ import gtts.tokenizer.symbols
 #importing the config file
 import sys
 sys.path.append("../")
+
+# our code. 
 import config
 
 import os
@@ -28,7 +31,6 @@ gtts.tokenizer.symbols.SUB_PAIRS.append(
 
 
 class RedditScrape:
-
     #Constructor
     def __init__(self, url, num_replies):
         """url: the link of the reddit post to scrape comments/title from

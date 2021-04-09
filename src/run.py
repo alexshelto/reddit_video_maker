@@ -1,8 +1,6 @@
 # This file will be the main driver function and run the entire progam
 # This will import the Reddit Scraping Class and the Video Editing Class
 
-
-
 # Used to handle command line arguments
 import argparse
 # Importing reddit scraping class 
@@ -12,22 +10,17 @@ from utils import utils
 
 
 
-
 def main() -> int: 
     """Main driver functio that runs the entire program
     parses command line arguments and creates a reddit scrape and video edit class"""
-
     # Creating required command line arguments
     parser = argparse.ArgumentParser()
     # Adding required argument: url of the reddit link
     parser.add_argument('url', help='link of reddit post is required')
     # Adding required argument, number of entries (comments) to read
     parser.add_argument('n_entries', help='specify the number of replies to the post you want')
-
     # Parse the command line arguments
     args = parser.parse_args()
-
-
         
 
     '''
@@ -35,8 +28,6 @@ def main() -> int:
     Reddit class will return or create mp3 clips that will be used by the 
     video class afer 
     '''
-
-    print("you want to make a video with the link: ", args.url)
 
     # Creating the reddit scraper class
     reddit_scraper = RedditScrape(args.url, int(args.n_entries))
@@ -48,7 +39,6 @@ def main() -> int:
     title_author = authors[0]   #the title author was stored in index 0
     reply_authors = authors[1:] #the rest of the indexes are reply author names
 
-
     # Creating an image for the title
     utils.create_image_for(title, title_author, 'title')
     # Creating image post for the replies
@@ -56,10 +46,7 @@ def main() -> int:
         img_name = 'reply'+str(i)
         utils.create_image_for(replies[i],reply_authors[i], img_name)
 
-
-
     return 0
-
 
 
 
