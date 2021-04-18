@@ -25,13 +25,21 @@ class VideoEditor:
         # Creating an 'ImageClip' of each jpeg we take
         clips.append(ImageClip(self.image_path + 'title.jpeg').set_duration(5))
 
+        
+        #building audio
+        audio = [self.audio_path + 'title.mp3']
+        for i in range(0, self.num_replies):
+            audio.append(self.audio_path + 'reply' + str(i) + '.mp3')
+        print(audio)
+        audio_buffer = CompositeAudioClip(audio)
+
         # add each reply using same method
         for i in range(0, self.num_replies):
             # each reply is named: reply0, reply1, reply2, ....
             img_name = 'reply' + str(i) + '.jpeg'
             print(f'adding file: {self.image_path + img_name} to the file')
             clips.append(ImageClip(self.image_path + img_name).set_duration(5))
-
+            
 
         # Output my file of clips
         print(clips)
