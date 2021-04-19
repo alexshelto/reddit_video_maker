@@ -12,50 +12,49 @@ class VideoEditor:
         self.audio_path = '../audio/'
 
     def create_movie(self):
-        ''' Method will make a slide show movie out of the audio and images
-        Note: currently all images are set to 5 second duration, needs to 
-        change to the durration of each audio clip
-        TODO: Adding audio clips still hasnt happened
+        '''
+        Creates a .mp4 file for every text to speech and post
+        will then combine every mp4 file for entire video
+        can add transitions this way
         '''
         clips = [] # clips are mp4 clips to be combined to make entire movie
+        clip_count = 0
         
         video_name = 'reddit_movie.mp4'
 
-        # Add the title image first
-        # Creating an 'ImageClip' of each jpeg we take
-        #clips.append(ImageClip(self.image_path + 'title.jpeg').set_duration(5))
-        tmp_title = ImageClip(self.image_path + 'title.jpeg').set_duration(5)
-        title_audio = AudioFileClip(self.audio_path + 'title.mp3').set_duration(5)
-        tmp_title = tmp_title.set_audio(title_audio)
-        clips.append(tmp_title)
+        # Create audio file and image file, then combine and add to list of clips
+        title_audio = AudioFileClip(self.audio_path + 'title.mp3')
+        title_clip = ImageClip(self.image_path + 'title.jpeg').set_duration(title_audio.duration+0.5)
+        title_mp4 = concatenate([title_clip], method="compose")
+        new_audioclip = CompositeAudioClip([title_audio])
+
+        title_mp4.audio = new_audioclip
+        clips.append(title_mp4)
+
+        # Loop through the rest of posts doing same thing above
+        for i in range(0, self.num_replies):
+            tmp_audio = AudioFileClip(f'{self.audio_path}reply{i}.mp3')
+            tmp_dur = tmp_audio.duration
+            tmp_clip = ImageClip(f'{self.image_path}reply{i}.jpeg').set_duration(tmp_dur + 0.5)
+            tmp_mp4 = concatenate([tmp_clip], method='compose')
+            tmp_mp3 = CompositeAudioClip([tmp_audio])
+            tmp_mp4.audio = tmp_mp3
+
+            clips.append(tmp_mp4)
+            
+
+        # Combina all clips, and combine into master video
+        final_vid = concatenate(clips, method='compose')
+
+        final_vid.write_videofile(f'{video_name}.mp4',
+          fps=20,
+          codec='libx264',
+          audio_codec='aac',
+          temp_audiofile='temp-audio.m4a',
+          remove_temp=True
+        )
 
         
-        '''
-        for i in range(0, self.num_replies):
-            img_name = 'reply' + str(i) + '.jpeg'
-            print(f'adding file: {self.image_path + img_name} to the file')
-            clips.append(ImageClip(self.image_path + img_name).set_duration(5))
-            audio = AudioFileClip(self.audio_path + 'reply' + str(i) + '.mp3')
-            #audio.append(AudioFileClip(self.audio_path + 'reply' + str(i) + '.mp3'))
-            clips[i] = clips[i].set_audio(audio)
-
-        print(audio)
-        '''
-
-        '''
-        # add each reply using same method
-        for i in range(0, self.num_replies):
-            # each reply is named: reply0, reply1, reply2, ....
-        '''
-
-        # Output my file of clips
-        print(clips)
-        # Create a video from the clips and turn it into a video 
-        #video = concatenate_videoclips(clips, method='compose')
-        video = concatenate_videoclips(clips, method='compose')
-        # Currently only 24fps due to wanting quick runtime for debug
-        # Can upgrade during production
-        video.write_videofile('reddit.mp4', fps=24)
 
 
     
