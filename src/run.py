@@ -20,6 +20,8 @@ def main() -> int:
     parser.add_argument('url', help='link of reddit post is required')
     # Adding required argument, number of entries (comments) to read
     parser.add_argument('n_entries', help='specify the number of replies to the post you want')
+    # Adding required argument, name of video
+    parser.add_argument('video_name', help='specify the name of the mp4 to create, (.mp4) not required at the end')
     # Parse the command line arguments
     args = parser.parse_args()
         
@@ -49,7 +51,7 @@ def main() -> int:
 
     # Creating a Video Editing object
     # Passing n_entries + 1, for # of images, since we have title + n replies
-    Editor = VideoEditor(int(args.n_entries))
+    Editor = VideoEditor(int(args.n_entries), args.video_name)
     Editor.create_movie()
     print('movie created')
 

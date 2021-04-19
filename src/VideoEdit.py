@@ -6,10 +6,12 @@ import os  # used for some file grabbing
 from PIL import Image # Image library
 
 class VideoEditor:
-    def __init__(self,num_replies):
+    def __init__(self,num_replies, video_name):
         self.num_replies = num_replies
+        self.video_name = video_name
         self.image_path = '../images/'
         self.audio_path = '../audio/'
+        self.save_path = '../edited_videos/'
 
     def create_movie(self):
         '''
@@ -20,7 +22,6 @@ class VideoEditor:
         clips = [] # clips are mp4 clips to be combined to make entire movie
         clip_count = 0
         
-        video_name = 'reddit_movie.mp4'
 
         # Create audio file and image file, then combine and add to list of clips
         title_audio = AudioFileClip(self.audio_path + 'title.mp3')
@@ -46,7 +47,7 @@ class VideoEditor:
         # Combina all clips, and combine into master video
         final_vid = concatenate(clips, method='compose')
 
-        final_vid.write_videofile(f'{video_name}.mp4',
+        final_vid.write_videofile(f'{self.save_path}{self.video_name}.mp4',
           fps=20,
           codec='libx264',
           audio_codec='aac',

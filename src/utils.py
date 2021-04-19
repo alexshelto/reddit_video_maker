@@ -31,7 +31,7 @@ class utils:
         # Creating author font: slightly larger than text size
         author_font = ImageFont.truetype(font_file, 55)
         # Writing author name to file
-        draw.text((20,50),author, font=author_font, fill=(225,0,0))
+        draw.text((20,50),f'u/{author}', font=author_font, fill=(225,0,0))
         
         # Need to loop through the words, and put them on the file line by line
         # If i write all text at once itl overflow off the picture in 1 line

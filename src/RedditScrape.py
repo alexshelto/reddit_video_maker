@@ -74,7 +74,10 @@ class RedditScrape:
         # adding post author and replies authors
         authors.append(submission.author.name)
         for comment in comments:
-            authors.append(comment.author.name)
+            try: 
+                authors.append(comment.author.name)
+            except AttributeError:
+                authors.append('deleted')
 
 
 
