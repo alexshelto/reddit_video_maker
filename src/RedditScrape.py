@@ -26,7 +26,7 @@ import os
 # Words that we will exchange for others in text scraping
 # To ensure no terrible words are used in the video
 gtts.tokenizer.symbols.SUB_PAIRS.append(
-        ('fuck', 'F')
+        ('fuck', '*uck')
 )
 
 
