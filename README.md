@@ -12,18 +12,23 @@ This project will find popular Reddit threads and convert them into a text-to-sp
 
 
 
-## Relevant API's and Software:
+# Usage
+* Use virutal environment and download requirements
+* Create config.py folder in src/
+  - Generate Praw API key and list the details there
+  - see: https://www.reddit.com/prefs/apps and https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/
+* Post reddit links inside of src/list.txt
+* run run.sh
 
-### Video Editing API:
-* https://shotstack.io/ (i got a developer account)
+## Example list.txt file
+```
+<reddit post link> <number of comments to scrape> <title of mp4 video>
+<reddit post link> <number of comments to scrape> <title of mp4 video>
+...
+```
 
-### Reddit API: 
-* https://www.reddit.com/wiki/api
-* wrapper for reddit API: praw: https://praw.readthedocs.io/en/latest/
-* Example of a project using praw: https://github.com/alexshelto/redditSourcedInstagramBot/blob/master/app.py
+## How it works
+* Uses a Reddit api to scrape Post and top comments from Reddit r/askreddit posts
+* Scrapes the content from post/comments to create images for each post and combine them into an mp4 file
+* Puts the text into text to speech to create mp3 file for soundtrack behind clips
 
-### Text to Speech API:
-* https://cloud.google.com/text-to-speech
-
-### Web Automation Software (for getting screenshots and probably snagging text for text-to-speech):
-* https://www.selenium.dev/documentation/en/
