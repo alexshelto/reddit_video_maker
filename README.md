@@ -18,7 +18,7 @@ This project will find popular Reddit threads and convert them into a text-to-sp
   - Generate Praw API key and list the details there
   - see: https://www.reddit.com/prefs/apps and https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/
 * Post reddit links inside of src/list.txt
-* run run.sh
+* run `python run.py list.txt`
 
 ## Example list.txt file
 ```
