@@ -25,7 +25,6 @@ def main() -> int:
     # Parse the command line arguments
     args = parser.parse_args()
         
-
     '''
     this is where we will create a class instance of Reddit scraper and video maker
     Reddit class will return or create mp3 clips that will be used by the 
