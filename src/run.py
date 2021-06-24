@@ -12,26 +12,45 @@ from utils import utils
 
 
 def main() -> int: 
-    """Main driver functio that runs the entire program
-    parses command line arguments and creates a reddit scrape and video edit class"""
-    # Creating required command line arguments
+
     parser = argparse.ArgumentParser()
-    # Adding required argument: url of the reddit link
-    parser.add_argument('url', help='link of reddit post is required')
-    # Adding required argument, number of entries (comments) to read
-    parser.add_argument('n_entries', help='specify the number of replies to the post you want')
-    # Adding required argument, name of video
-    parser.add_argument('video_name', help='specify the name of the mp4 to create, (.mp4) not required at the end')
-    # Parse the command line arguments
+    parser.add_argument('file', help='file path of input file')
     args = parser.parse_args()
-        
 
+    ''' input_metadata holds the meta data from each entry in the input file
+    is a list of dicts that will be used to build each video
+    [ {link: <link>, n_entries: <n_entries>, video_name: <name> }, ...]
     '''
-    this is where we will create a class instance of Reddit scraper and video maker
-    Reddit class will return or create mp3 clips that will be used by the 
-    video class afer 
-    '''
+    input_metadata = [] 
 
+    # Open the file from argument and build the list of meta data for each link to build videos 
+    try:
+        # Reading file, ignoring empty lines 
+        with open(args.file, 'r') as f_in: 
+            lines = list(line for line in (l.strip() for l in f_in) if line)
+
+        #iterate through the lines of content and create the meta objects
+        for entry in lines: 
+            data = entry.split(' ') #split string at spaces... file format is: link num_comments title
+            input_metadata.append({'url': data[0], 'n_entries': int(data[1]), 'title': data[2]})
+
+    except FileNotFoundError:
+        print('Invalid path to file')
+        return 1
+
+    
+
+    # Loop through each video meta object and create videos 
+    for video_meta in input_metadata: 
+        print(video_meta)
+
+        reddit_scraper = RedditScrape(video_meta['url'], video_meta['n_entries'])
+        title, replies, authors = reddit_scraper.scrape_post()
+        print(title)
+
+
+
+    """
     # Creating the reddit scraper class
     reddit_scraper = RedditScrape(args.url, int(args.n_entries))
 
@@ -54,6 +73,8 @@ def main() -> int:
     Editor = VideoEditor(int(args.n_entries), args.video_name)
     Editor.create_movie()
     print('movie created')
+
+    """
 
     return 0
 
