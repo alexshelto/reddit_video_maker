@@ -75,7 +75,7 @@ class RedditScrape:
 
 
         clean_title = pre_processors.word_sub(submission.title)
-        text_used.append(clean_title)#('utf-8', 'replace'))
+        text_used.append(clean_title)
         
 
         for i in range(0, len(comments)):

@@ -13,6 +13,19 @@ class VideoEditor:
         self.audio_path = '../audio/'
         self.save_path = '../edited_videos/'
 
+        self.create_dir() # Creates the edited videos dir if it doesnt exist
+
+        print(self.num_replies)
+
+
+    def create_dir(self):
+        '''Creates the dir to hold the edited video if it doesnt already exist'''
+        try: 
+            os.makedirs(self.save_path)
+            print(f'directory: {self.save_path} created')
+        except FileExistsError:
+            pass
+
     def create_movie(self):
         '''
         Creates a .mp4 file for every text to speech and post
@@ -48,7 +61,7 @@ class VideoEditor:
         final_vid = concatenate(clips, method='compose')
 
         final_vid.write_videofile(f'{self.save_path}{self.video_name}.mp4',
-          fps=20,
+          fps=10,
           codec='libx264',
           audio_codec='aac',
           temp_audiofile='temp-audio.m4a',

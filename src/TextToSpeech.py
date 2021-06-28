@@ -18,8 +18,8 @@ sys.path.append("../")
 
 class TextToSpeech:
 
-    def __init__(self, audio_path='../audio/'):
-        self.audio_path = audio_path
+    def __init__(self):
+        self.audio_path = '../audio/' 
         self.create_dir() # Creates the directory to hold audio if not already specified 
 
 
