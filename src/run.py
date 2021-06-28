@@ -46,7 +46,16 @@ def main() -> int:
 
         reddit_scraper = RedditScrape(video_meta['url'], video_meta['n_entries'])
         title, replies, authors = reddit_scraper.scrape_post()
+
+        # Text to speech 
+        # Images 
+        # Create video 
+
+
         print(title)
+        print(len(replies))
+        print(len(authors))
+        
 
 
 
