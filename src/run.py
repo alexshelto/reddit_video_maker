@@ -86,38 +86,9 @@ def main() -> int:
 
         Editor = VideoEditor(int(video_meta['n_entries']), video_meta['title'])
         Editor.create_movie()
-
         print('movie created')
 
-
-
-
-    """
-    # Creating the reddit scraper class
-    reddit_scraper = RedditScrape(args.url, int(args.n_entries))
-
-    # Scrapes reddit post of title and replies, makes text to speech audio, and returns strings used
-    # string title, list of replies, and a list of authors: [title author, reply 1 author, reply2 author ,... ]
-    title, replies, authors = reddit_scraper.scrape_post()
-    
-    title_author = authors[0]   #the title author was stored in index 0
-    reply_authors = authors[1:] #the rest of the indexes are reply author names
-
-    # Creating an image for the title
-    utils.create_image_for(title, title_author, 'title')
-    # Creating image post for the replies
-    for i in range(0, len(replies)):
-        img_name = 'reply'+str(i)
-        utils.create_image_for(replies[i],reply_authors[i], img_name)
-
-    # Creating a Video Editing object
-    # Passing n_entries + 1, for # of images, since we have title + n replies
-    Editor = VideoEditor(int(args.n_entries), args.video_name)
-    Editor.create_movie()
-    print('movie created')
-
-    """
-
+        
     return 0
 
 
