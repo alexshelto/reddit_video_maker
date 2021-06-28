@@ -1,15 +1,18 @@
+
+
 # This file will be the main driver function and run the entire progam
 # This will import the Reddit Scraping Class and the Video Editing Class
 
 import argparse # Used to handle command line arguments
 
-from RedditScrape import RedditScrape # Importing reddit scraping class 
+from RedditScrape import RedditScrape # Importing reddit scraping class to acquire posts and authors 
 
-from TextToSpeech import TextToSpeech # Importing tts class
+from TextToSpeech import TextToSpeech # Importing tts class to make mp3 of posts
 
-from VideoEdit import VideoEditor # Importing the video editing class
+from ImageCreator import ImageCreator # Generates images of posts
 
-from utils import utils # Importing some utility functions from utils.py
+from VideoEdit import VideoEditor # Edits all the tts mp3 and Images into a mp4 video 
+
 
 
 def main() -> int: 
@@ -51,21 +54,37 @@ def main() -> int:
         # index 0 of both are associated with the title, the rest are replies to the thread
         posts, authors = reddit_scraper.scrape_post()
 
-        for post in posts:
-            print(post)
+        try:
+            assert(len(posts) == len(authors))
+        except AssertionError: 
+            print(f'''Something went wrong in the Reddit Scrape...
+                    length of posts: {str(len(posts))} != len authors: {str(len(authors))}
+                    Exiting Program.''')
+            return -1
 
-        tts = TextToSpeech()
-        tts.create_tts(posts)
 
-
+        for i, post in enumerate(posts):
+            print(f'{i}: {post}')
 
         # Text to speech 
-        # Images 
-        # Create video 
+        tts = TextToSpeech()   # Creating tts class
+        tts.create_tts(posts)  # Creating all tts mp3 files for video 
 
-        print(len(posts))
-        print(len(authors))
-        
+        # Image Creation
+        # Creating image for title 
+        ImageCreator.create_image_for(posts[0], authors[0], 'title')
+
+        # Creating image post for the replies
+        for i in range(1, len(replies)):
+            ImageCreator.create_image_for(replies[i],reply_authors[i], f'reply{str(i)}')
+
+
+        # Creating a Video Editing object
+        # Passing n_entries + 1, for # of images, since we have title + n replies
+        Editor = VideoEditor(int(video_meta['n_entries']), video_meta['video_name'])
+        Editor.create_movie()
+
+        print('movie created')
 
 
 
