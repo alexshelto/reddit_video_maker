@@ -1,14 +1,18 @@
+
+
 # This file will be the main driver function and run the entire progam
 # This will import the Reddit Scraping Class and the Video Editing Class
 
-# Used to handle command line arguments
-import argparse
-# Importing reddit scraping class 
-from RedditScrape import RedditScrape
-# Importing the video editing class
-from VideoEdit import VideoEditor
-# Importing some utility functions from utils.py
-from utils import utils
+import argparse # Used to handle command line arguments
+
+from RedditScrape import RedditScrape # Importing reddit scraping class to acquire posts and authors 
+
+from TextToSpeech import TextToSpeech # Importing tts class to make mp3 of posts
+
+from ImageCreator import ImageCreator # Generates images of posts
+
+from VideoEdit import VideoEditor # Edits all the tts mp3 and Images into a mp4 video 
+
 
 
 def main() -> int: 
@@ -19,7 +23,7 @@ def main() -> int:
 
     ''' input_metadata holds the meta data from each entry in the input file
     is a list of dicts that will be used to build each video
-    [ {link: <link>, n_entries: <n_entries>, video_name: <name> }, ...]
+    [ {link: <link>, n_entries: <n_entries>, title: <name> }, ...]
     '''
     input_metadata = [] 
 
@@ -45,8 +49,46 @@ def main() -> int:
         print(video_meta)
 
         reddit_scraper = RedditScrape(video_meta['url'], video_meta['n_entries'])
-        title, replies, authors = reddit_scraper.scrape_post()
-        print(title)
+
+        # Returns 2 lists of strings, [all posts] [authors of posts]
+        # index 0 of both are associated with the title, the rest are replies to the thread
+        posts, authors = reddit_scraper.scrape_post()
+
+        try:
+            assert(len(posts) == len(authors))
+            print(len(posts))
+
+        except AssertionError: 
+            print(f'''Something went wrong in the Reddit Scrape...
+                    length of posts: {str(len(posts))} != len authors: {str(len(authors))}
+                    Exiting Program.''')
+            return -1
+
+
+        for i, post in enumerate(posts):
+            print(f'{i}: {post}')
+
+        # Text to speech 
+        tts = TextToSpeech()   # Creating tts class
+        tts.create_tts(posts)  # Creating all tts mp3 files for video 
+
+        # Image Creation
+        # Creating image for title 
+        ImageCreator.create_image_for(posts[0], authors[0], 'title')
+
+        # Creating image post for the replies: reply0.jpg, reply1.jpg, ...
+        for i in range(1, len(posts)):
+            ImageCreator.create_image_for(posts[i],authors[i], f'reply{str(i-1)}')
+
+
+        # Creating a Video Editing object
+        # Passing n_entries + 1, for # of images, since we have title + n replies
+
+        Editor = VideoEditor(int(video_meta['n_entries']), video_meta['title'])
+        Editor.create_movie()
+
+        print('movie created')
+
 
 
 
