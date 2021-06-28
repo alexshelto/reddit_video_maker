@@ -1,14 +1,15 @@
 # This file will be the main driver function and run the entire progam
 # This will import the Reddit Scraping Class and the Video Editing Class
 
-# Used to handle command line arguments
-import argparse
-# Importing reddit scraping class 
-from RedditScrape import RedditScrape
-# Importing the video editing class
-from VideoEdit import VideoEditor
-# Importing some utility functions from utils.py
-from utils import utils
+import argparse # Used to handle command line arguments
+
+from RedditScrape import RedditScrape # Importing reddit scraping class 
+
+from TextToSpeech import TextToSpeech # Importing tts class
+
+from VideoEdit import VideoEditor # Importing the video editing class
+
+from utils import utils # Importing some utility functions from utils.py
 
 
 def main() -> int: 
@@ -45,17 +46,27 @@ def main() -> int:
         print(video_meta)
 
         reddit_scraper = RedditScrape(video_meta['url'], video_meta['n_entries'])
-        title, replies, authors = reddit_scraper.scrape_post()
+
+        # Returns 2 lists of strings, [all posts] [authors of posts]
+        # index 0 of both are associated with the title, the rest are replies to the thread
+        posts, authors = reddit_scraper.scrape_post()
+
+        for post in posts:
+            print(post)
+
+        tts = TextToSpeech()
+        tts.create_tts(posts)
+
+
 
         # Text to speech 
         # Images 
         # Create video 
 
-
-        print(title)
-        print(len(replies))
+        print(len(posts))
         print(len(authors))
         
+
 
 
 

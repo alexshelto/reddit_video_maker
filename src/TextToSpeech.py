@@ -26,19 +26,30 @@ class TextToSpeech:
     def create_dir(self):
         '''Creates the dir to hold the audio files if it doesnt already exist'''
         try: 
-            os.makedirs(self.path)
-            print(f'directory: {self.path} created')
+            os.makedirs(self.audio_path)
+            print(f'directory: {self.audio_path} created')
         except FileExistsError:
-            print(f'directory: {self.path} already exists')
+            pass
 
     
-    def create_tts(self, string, title=False):
-        '''Creates the text-to-speech audio and places it in the audio_path directory
-        if title param is set to true, the audio file will be named: "title.mp3" '''
+    def create_tts(self, posts):
+        '''Takes the list of posts and creates text to speech audio for each one
+        places them in the audio_path directory...
+        the 0th index of posts is the title so we explicitly name it title.mp3'''
 
-        pass
+        # Creating the title tts first
+        with open(f'{self.audio_path}title.mp3', 'wb') as f:
+            gTTS(text=posts[0], lang='en').write_to_fp(f)
 
-  
+        # Creating tts for the replies next
+        for i, reply in enumerate(posts[1:]):
+            # Saving tts of replies as: reply0.mp3, reply1.mp3, ... , replyn.mp3
+            with open(f'{self.audio_path}reply{str(i)}.mp3', 'wb') as f:
+                gTTS(text=reply, lang='en').write_to_fp(f)
+
+
+
+
 
 
 
