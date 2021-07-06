@@ -75,7 +75,7 @@ class RedditScrape:
 
         for i in range(0, len(comments)):
             # Push cleaned string into text_used
-            data = reddit.comment(comments[i])
+            data = comments[i]
             clean_str = pre_processors.word_sub(data.body)
             text_used.append(clean_str)  # .encode('utf-8', 'replace'))
 
