@@ -53,8 +53,14 @@ class RedditScrape:
         submission.comments.replace_more(limit=0)  # removing weird 'more' comments
 
         # Creating a list of the top n replies, n=num_replies. an argument to the class
-        comments = submission.comments.list()[
-                   0:self.num_replies]  # Change this to remove instance of getting "[deleted]" comments sometimes
+        comments = submission.comments.list()[0:self.num_replies]
+
+        # removes deleted comments
+        for top_level_comment in comments:
+            if "[deleted]" in top_level_comment.body:
+                comments.remove(top_level_comment)
+                comments.append(submission.comments.list()[self.num_replies + 1])
+                self.num_replies += 1
 
         # adding post author and replies authors
         authors.append(submission.author.name)
