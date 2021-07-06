@@ -2,8 +2,8 @@ from config import reddit_api
 
 reddit = reddit_api()
 SUBREDDIT = 'AskReddit'
-NUM_COMMENTS = 12
-NUM_ENTRIES = 5
+NUM_COMMENTS = 50
+NUM_ENTRIES = 1
 
 list_file = open(r"list.txt", "w+")
 

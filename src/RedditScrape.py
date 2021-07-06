@@ -52,16 +52,18 @@ class RedditScrape:
         submission.comment_sort = 'top'  # Sorting the comments on the post to top voted
         submission.comments.replace_more(limit=0)  # removing weird 'more' comments
 
-        # Creating a list of the top n replies, n=num_replies. an argument to the class
-        comments = submission.comments.list()[0:self.num_replies]
+        # creates the comment list without including links, long comments or deleted/removed comments
+        comments = []
+        counter = 0
+        while len(comments) < self.num_replies:
+            comment = submission.comments.list()[counter]
+            content = comment.body
+            if ("[" not in content) and ("www" not in content) and ("http" not in content) and (len(content) < 900):
+                comments.append(comment)
+            counter += 1
 
-        # removes deleted comments
-        for top_level_comment in comments:
-            if "[deleted]" in top_level_comment.body:
-                comments.remove(top_level_comment)
-                comments.append(submission.comments.list()[self.num_replies + 1])
-                self.num_replies += 1
-
+        for comment in comments:
+            print(comment.body)
         # adding post author and replies authors
         authors.append(submission.author.name)
         for comment in comments:
