@@ -143,36 +143,12 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
-/.idea/inspectionProfiles/profiles_settings.xml
-/.idea/inspectionProfiles/Project_Default.xml
-/.idea/.gitignore
-/.idea/AutoVid.iml
-/.idea/misc.xml
-/.idea/modules.xml
-/.idea/vcs.xml
-/audio/reply0.mp3
-/audio/reply1.mp3
-/audio/reply2.mp3
-/audio/reply3.mp3
-/audio/reply4.mp3
-/audio/reply5.mp3
-/audio/reply6.mp3
-/audio/reply7.mp3
-/audio/reply8.mp3
-/audio/reply9.mp3
-/audio/reply10.mp3
-/audio/reply11.mp3
-/audio/title.mp3
-/images/reply0.jpeg
-/images/reply1.jpeg
-/images/reply2.jpeg
-/images/reply3.jpeg
-/images/reply4.jpeg
-/images/reply5.jpeg
-/images/reply6.jpeg
-/images/reply7.jpeg
-/images/reply8.jpeg
-/images/reply9.jpeg
-/images/reply10.jpeg
-/images/reply11.jpeg
-/images/title.jpeg
+
+#ide
+/.idea/
+
+#audio, images, and video folders
+/audio
+/edited_videos
+/images/*
+!/image/default.jpg
