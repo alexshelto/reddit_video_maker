@@ -13,7 +13,7 @@ This project will find popular Reddit threads and convert them into a text-to-sp
 
 
 # Usage
-* Use virutal environment and download requirements
+* Use virtual environment and download requirements
 * Create config.py folder in src/
   - Generate Praw API key and list the details there
   - see: https://www.reddit.com/prefs/apps and https://www.jcchouinard.com/get-reddit-api-credentials-with-praw/
