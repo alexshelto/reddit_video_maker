@@ -1,9 +1,9 @@
 from config import reddit_api
 
 reddit = reddit_api()
-SUBREDDIT = 'AskReddit'
-NUM_COMMENTS = 50
-NUM_ENTRIES = 5
+SUBREDDIT = 'AskReddit'  # Replace with the name of the subreddit to pull submissions and comments from
+NUM_COMMENTS = 50  # Replace with desired number of comments
+NUM_ENTRIES = 5  # Replace with number of videos/links desired
 
 list_file = open(r"list.txt", "w+")
 

@@ -28,19 +28,19 @@ gtts.tokenizer.symbols.SUB_PAIRS.append(
 class RedditScrape:
 
     def __init__(self, url, num_replies):
-        '''url: the link of the reddit post to scrape comments/title from
+        """url: the link of the reddit post to scrape comments/title from
         num_replies: the number of top replies program will take to make video
-        path: path to folder: [audio] which stores audio files created or used'''
+        path: path to folder: [audio] which stores audio files created or used"""
 
         self.url = url
         self.num_replies = num_replies
         self.path = '../audio/'  # Creating a directory to hold the audio in
 
     def scrape_post(self):
-        '''Takes the link passed into the class constructor
+        """Takes the link passed into the class constructor
         to scrape the reddit post for the title and the top comments
-        then the function loops through the strings of text turning them into 
-        a text to speech mp3 files and writes them to an mp3'''
+        then the function loops through the strings of text turning them into
+        a text to speech mp3 files and writes them to an mp3"""
 
         # Creating an instance of reddit api
         reddit = reddit_api()
