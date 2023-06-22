@@ -72,18 +72,19 @@ class RedditScrape:
             except AttributeError:
                 authors.append('deleted')
 
-
-
         clean_title = pre_processors.word_sub(submission.title)
         text_used.append(clean_title)
-        
+
+
+        #This is the problem
 
         for i in range(0, len(comments)):
             # Push cleaned string into text_used
-            data = reddit.comment(comments[i])
-            clean_str = pre_processors.word_sub(data.body)
-            text_used.append(clean_str)#.encode('utf-8', 'replace'))
-
+            # data = reddit.comment(comments[i])
+            # clean_str = pre_processors.word_sub(data.body)
+            # text_used.append(clean_str)#.encode('utf-8', 'replace'))
+            clean_str = pre_processors.word_sub(comments[i].body)
+            text_used.append(clean_str)
 
         # Returns text used: [title & replies], and [authors]
         return text_used, authors
